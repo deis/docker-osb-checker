@@ -15,7 +15,7 @@ CONFIG_PATH=/$TESTS_PATH/test/configs/config_mock.json
 ln -s /app/config.json $CONFIG_PATH || true
 
 # Wait for the apiserver to start responding
-./wupiao.sh $HOST $PORT $TIMEOUT
+/app/wupiao.sh $HOST $PORT $TIMEOUT
 
 cd $TESTS_PATH
 exec bash -c mocha
