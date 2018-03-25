@@ -1,17 +1,17 @@
 FROM node:6-stretch
 
+ENV TESTS_PATH=/opt/osb-checker/2.13/tests
+
 RUN git clone https://github.com/openservicebrokerapi/osb-checker.git /opt/osb-checker \
-  && rm /opt/osb-checker/2.13/tests/test/configs/*.json \
+  && rm $TESTS_PATH/test/configs/*.json \
   && npm config set package-lock false && npm install --global mocha \
   && apt-get update \
-  && apt-get install -y netcat
+  && apt-get install -y netcat \
+  && cd $TESTS_PATH \
+  && npm install
 
-COPY scripts/*.sh /opt/osb-checker/2.13/tests/
+COPY scripts/*.sh /app/
 
-WORKDIR /opt/osb-checker/2.13/tests
+WORKDIR /app
 
-RUN npm install
-
-ENTRYPOINT [ "./test-api-compliance.sh" ]
-
-CMD [ "localhost", "80", "300" ]
+CMD [ "./test.sh", "localhost", "8080", "60" ]

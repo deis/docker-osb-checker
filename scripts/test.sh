@@ -9,13 +9,13 @@ HOST=$1
 PORT=$2
 TIMEOUT=$3
 
-ls /config.json
+TESTS_PATH=/opt/osb-checker/2.13/tests
+CONFIG_PATH=/$TESTS_PATH/test/configs/config_mock.json
 
-ln -s /config.json /opt/osb-checker/2.13/tests/test/configs/config_mock.json
-
-ls /opt/osb-checker/2.13/tests/test/configs/config_mock.json
+ln -s /app/config.json $CONFIG_PATH || true
 
 # Wait for the apiserver to start responding
 ./wupiao.sh $HOST $PORT $TIMEOUT
 
+cd $TESTS_PATH
 exec bash -c mocha
